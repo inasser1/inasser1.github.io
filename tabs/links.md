@@ -42,7 +42,7 @@ lng_pair: id_links
 page_data:
   main:
     header: "Links"
-    info: "Useful Websites I have used to better my portfolio and learn throughout my career"
+    info: "Useful Websites I have used to better my portfolio and learn coding and other skills throughout my career"
 
   # To change order of the Categories, simply change order. (you don't need to change list order.)
   category:
@@ -57,26 +57,23 @@ page_data:
       color: "#62b462"
 
   list:
-    -
-    # programming
-    - type: id_programming
-      title: "Stack OverFlow"
-      url: "https://stackoverflow.com/"
-      info: "Stack Overflow is a question and answer website for professional and enthusiastic programmers."
-
     # linkedin links
     - type: id_linkedin
       title: "LinkedIn"
       url: "https://www.linkedin.com/?trk=content-hub-home-page_nav-header-logo"
-      info: "Create an account to find jobs and connect with professionals throughout the worls"
+      info: "Create an account to find jobs and connect with professionals throughout the world. Using it will help you build connections and find job opportunities."
 
     # coding
     - type: id_coding
       title: "W3Schools"
       url: "https://www.w3schools.com/"
-      info: "W3Schools offers free online tutorials, references and exercises in all the major languages of the web. Covering popular subjects like HTML, CSS, JavaScript, Python, SQL, Java, and many more."
+      info: "W3Schools offers free online tutorials, references and exercises in all the major languages of the web."
     - type: id_coding
       title: "GeeksforGeeks"
       url: "https://www.geeksforgeeks.org/"
       info: "Similar to W3Schools, this website offers free online references, practice, and tips for learning new coding languages."
+    - type: id_coding 
+      title: "Stack Overflow"
+      url: "https://stackoverflow.com/"
+      info: "Stack Overflow is a question and answer website that professionals and people seeking help and advice use."
 ---
