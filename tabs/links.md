@@ -73,7 +73,7 @@ page_data:
       title: "W3Schools"
       url: "https://www.w3schools.com/"
       info: "W3Schools offers free online tutorials, references and exercises in all the major languages of the web. Covering popular subjects like HTML, CSS, JavaScript, Python, SQL, Java, and many more."
-      type: id_helpfulsites
+    - type: id_helpfulsites
       title: "GeeksforGeeks"
       url: "https://www.geeksforgeeks.org/"
       info: "Similar to W3Schools, this website also offers free online resources to study, practice and learn new coding languages."
