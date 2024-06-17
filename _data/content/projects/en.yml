@@ -186,26 +186,280 @@ page_data:
 
     # quote
     - type: id_quote
-      project_name: "Example Project"
-      project_excerpt: "William Shakespeare"
+      project_name: "BattleShip Python Project"
+      project_excerpt: "My Code"
       #img: ":project1_thumb.jpg"
       #img_title: "img title3"
-      date: "2021-05-27"
+      date: "2024-04-12"
       post: |
-        Let me not to the marriage of true minds
-        Admit impediments. Love is not love
-        Which alters when it alteration finds,
-        Or bends with the remover to remove.
-        O no, it is an ever-fixed mark
-        That looks on tempests and is never shaken;
-        It is the star to every wand'ring barque,
-        Whose worth's unknown, although his height be taken.
-        Love's not Time's fool, though rosy lips and cheeks
-        Within his bending sickle's compass come;
-        Love alters not with his brief hours and weeks,
-        But bears it out even to the edge of doom.
-        If this be error and upon me proved,
-        I never writ, nor no man ever loved.
+        ### Code
+        {:data-align="center"}
+
+        ### Main File
+        ```python
+        # this part of the code will just run all the logic from the classes made before
+
+        from board import Ship, Board #important for the project
+        from game import Player, BattleshipGame #important for the project
+
+        def main():
+            board_size = 5
+            ship_list = [5, 4, 3, 3, 2]
+            player1_board = Board(board_size)
+            player2_board = Board(board_size)
+            player1 = Player("Player 1", player1_board, ship_list)
+            player2 = Player("Player 2", player2_board, ship_list)
+            game = BattleshipGame(player1, player2)
+            game.play()
+
+        if __name__ == "__main__":
+            main()
+        ```
+        ### Board.py
+        ```python
+        class Ship(object):
+        """
+            deals with the Ships in the game. Their positions, directions and whether they aer sunk
+        """
+        def __init__(self, length, position, orientation):
+            """
+                initializes all values that pertain to a ship
+            """
+            self.length = length
+            self.position = position
+            self.orientation = orientation.lower()
+            self.hit_count = 0
+            self.is_sunk = False
+            self.positions = self.get_positions()
+
+        def get_positions(self):
+            """
+                starts with the first position given and the orientation and returns the list of all spaces taken
+            """
+            positions = [self.position]
+            for i in range(self.length - 1):  # Start from zero and iterate up to length - 1
+                if self.orientation == 'v':
+                    pos = (self.position[0] + i + 1, self.position[1])  # Increment the row for vertical orientation
+                else:
+                    pos = (self.position[0], self.position[1] + i + 1)  # Increment the column for horizontal orientation
+                positions.append(pos)
+            return positions
+
+        def get_orientation(self):
+            """
+                return the orientation of the ship
+            """
+            return self.orientation
+
+        def apply_hit(self):
+            """
+                check if all positions in the ship are hit and change the is_sunk variable
+            """
+            self.hit_count += 1
+            if self.hit_count == self.length:
+                self.is_sunk = True
+
+
+
+        class Board(object):
+            """
+                keeps track of all ships on the board and with validating player moves
+            """
+            def __init__(self, size):
+                """
+                    initializes all values for the Board class
+                """
+                self.size = size
+                self.board = [[' ' for _ in range(size)] for _ in range(size)]
+                self.ships = []
+
+            def place_ship(self, ship):
+                """
+                    updates ships list to add filled positions and places ships on the board
+                """
+                ship_positions = ship.get_positions()
+                self.ships.append(ship)
+                for pos in ship_positions:
+                    row, col = pos
+                    self.board[row][col] = 'S'
+
+            def apply_guess(self, guess):
+                """
+                    applies the guess of the user and tells whether or not a ship was hit
+                """
+                row, col = guess
+                hit = False
+                for ship in self.ships:
+                    if guess in ship.positions:
+                        ship.apply_hit()
+                        self.board[row][col] = 'H'
+                        print("Hit!")
+                        hit = True
+                        break
+
+                if not hit:
+                    self.board[row][col] = 'M'
+                    print("Miss!")
+
+            def validate_ship_coordinates(self, ship):
+                """
+                    will check if the players move is valid
+                """
+                for place in ship.positions:
+                    row, col = place
+                    if not (0 <= row < self.size and 0 <= col < self.size):
+                        raise RuntimeError("Ship coordinates are out of bounds!")
+                    if self.board[row][col] != " ":
+                        raise RuntimeError("Ship coordinates are already taken!")
+
+            def __str__(self):
+                """
+                    returns the board as a string
+                """
+                board_str = ""
+                for row in self.board:
+                    row_str = "[{}]\n".format("][".join(row))
+                    board_str += row_str
+                return board_str
+        
+        ### Game.py
+        ```python
+        from board import Ship,Board #important for the project
+
+        ## Uncomment the following lines when you are ready to do input/output tests!
+        ## Make sure to uncomment when submitting to Codio.
+        import sys
+        def input( prompt=None ):
+          if prompt != None:
+              print( prompt, end="" )
+          aaa_str = sys.stdin.readline()
+          aaa_str = aaa_str.rstrip( "\n" )
+          print( aaa_str )
+          return aaa_str
+
+        class Player(object):
+            """
+                will represent a player in the game and do their moves
+            """
+            def __init__(self, name, board, ship_list):
+                """
+                    initializes values for the player class
+                """
+                self.name = name
+                self.board = board
+                self.guesses = []
+                self.ship_list = ship_list
+
+            def validate_guess(self, guess):
+                """
+                    check if the players guess has not been guessed and is within the baord
+                """
+                row, col = guess
+                if guess in self.guesses:
+                    raise RuntimeError("This guess has already been made!")
+                if not (0 <= row < self.board.size and 0 <= col < self.board.size):
+                    raise RuntimeError("Guess is not a valid location!")
+
+            def get_player_guess(self):
+                """
+                    reads a guess from player
+                """
+                guess_str = input("Enter your guess: ")
+                while True:
+                    try:
+                        guess = tuple(map(int, guess_str.split(',')))
+                        self.validate_guess(guess)
+                        return guess
+                    except RuntimeError:
+                        pass
+
+
+            def set_all_ships(self):
+                """
+                    will set all the players ships on the board if they are viable
+                """
+                for ship_size in self.ship_list:
+                    while True:
+                        try:
+                            position_str = input("Enter the coordinates of the ship of size {}: ".format(ship_size))
+                            position = tuple(map(int, position_str.split(',')))
+                            orientation = input("Enter the orientation of the ship of size {}: ".format(ship_size))
+                            ship = Ship(ship_size, position, orientation)
+                            self.board.validate_ship_coordinates(ship)
+                            self.board.place_ship(ship)
+                            break
+                        except (ValueError, RuntimeError):
+                            pass
+
+
+        class BattleshipGame(object):
+            """
+                will run the game
+            """
+
+            def __init__(self, player1, player2):
+                """
+                    initializes the game
+                """
+                self.player1 = player1
+                self.player2 = player2
+
+            def check_game_over(self):
+                """
+                    checks if the game has ended
+                """
+                if all(ship.is_sunk for ship in self.player2.board.ships):
+                    return "{} wins!".format(self.player1.name)
+                elif all(ship.is_sunk for ship in self.player1.board.ships):
+                    return "{} wins!".format(self.player2.name)
+                else:
+                    return ""
+
+            def display(self):
+                """
+                    displays current boards
+                """
+                print("{}'s board:".format("Player 1"))
+                print(self.player1.board)
+                print("{}'s board:".format("Player 2"))
+                print(self.player2.board)
+
+            def play(self):
+                """
+                    runs the entire game until a winner is determined
+                """
+                # setting all ships on players boards
+                self.player1.set_all_ships()
+                self.player2.set_all_ships()
+                while True:
+                    # display board
+                    self.display()
+                    print("{}'s turn.".format("Player 1"))
+
+                    # player 1s turn first
+                    guess = self.player1.get_player_guess()
+                    self.player2.board.apply_guess(guess)
+                    winner = self.check_game_over()
+                    if winner:
+                        print(winner)
+                        break
+
+                    # player 2 next
+                    print("{}'s turn.".format("Player 2"))
+                    guess = self.player2.get_player_guess()
+                    self.player1.board.apply_guess(guess)
+                    winner = self.check_game_over()
+                    if winner:
+                        print(winner)
+                        break
+
+                    cont = input("Continue playing?: ")
+                    if cont.lower() == 'q':
+                        break
+
+        ```
+
+
     - type: id_quote
       project_name: "Example Project"
       project_excerpt: "Albert Einstein"
@@ -214,19 +468,3 @@ page_data:
       date: "2021-06-08"
       post: |
         Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.
-    - type: id_quote
-      project_name: "Example Project"
-      project_excerpt: "Mae West"
-      img: ":project1_thumb.jpg"
-      img_title: "img title5"
-      date: "2021-08-20"
-      post: |
-        You only live once, but if you do it right, once is enough.
-    - type: id_quote
-      project_name: "Example Project"
-      project_excerpt: "Mahatma Gandhi "
-      img: ":project2_thumb.jpg"
-      img_title: "img title6"
-      date: "2021-12-20"
-      post: |
-        Be the change that you wish to see in the world.
