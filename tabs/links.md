@@ -42,7 +42,7 @@ lng_pair: id_links
 page_data:
   main:
     header: "Links"
-    info: "These are links I used throughout my years to better my portfolio and find jobs and opportunities."
+    info: "These are links I used throughout my years to better my portfolio and skills and find jobs and opportunities."
 
   # To change order of the Categories, simply change order. (you don't need to change list order.)
   category:
@@ -69,7 +69,6 @@ page_data:
       title: "LinkedIn"
       url: "https://www.linkedin.com/?trk=content-hub-home-page_nav-header-logo"
       info: "Create an account to find jobs and connect with professionals throughout the world."
-      
 
     # helpfulsites
     - type: id_helpfulsites
@@ -77,7 +76,6 @@ page_data:
       url: "https://www.w3schools.com/"
       info: "W3Schools offers free online tutorials, references and exercises in all the major languages of the web. Covering popular subjects like HTML, CSS, JavaScript, Python, SQL, Java, and many more."
       type: id_helpfulsites
-      title: "GeeksforGeeks"
+      title: "Jekyll Cheat Sheet"
       url: "https://www.geeksforgeeks.org/"
-      info: "Similar to W3Schools, this website offers free coding tutorials and helpful explantions as well."
----
+      info: "Similar to W3Schools, this website also offers free online resources to study, practice and learn new coding languages."
