@@ -52,9 +52,6 @@ page_data:
     - title: "Coding"
       type: id_coding
       color: "#F4A273"
-    - title: "Programming"
-      type: id_programming
-      color: "#62b462"
 
   list:
     # linkedin links
