@@ -12,19 +12,16 @@ page_data:
     back_color: "lightblue"
 
   category:
-    - title: "Example"
-      type: id_example
+    - title: "Projects"
+      type: id_project
       color: "gray"
-    - title: "Picture"
-      type: id_picture
-      color: "#62b462"
     - title: "Quote"
       type: id_quote
       color: "#2FD0ED"
 
   list:
     # quote
-    - type: id_quote
+    - type: id_project
       project_name: "BattleShip Python Project"
       project_excerpt: "My Code"
       #img: ":project1_thumb.jpg"
